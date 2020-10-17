@@ -58,3 +58,7 @@ module "private_subnet" {
   subnet_private_cidr = "10.0.20.0/24"
   subnet_private_az   = "ap-northeast-1a"
 }
+
+output "vpc_id" {
+  value = aws_vpc.template.id
+}
