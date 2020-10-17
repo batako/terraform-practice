@@ -1,0 +1,7 @@
+#!/bin/sh
+
+__DIR__=$(cd $(dirname $0); pwd)
+DEV_HOME=${DEV_HOME:-$(cd $__DIR__/../environments/development; pwd)}
+
+cd $DEV_HOME
+terraform init
