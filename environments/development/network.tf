@@ -1,5 +1,5 @@
-module "network" {
-  source              = "../../module/network/"
+module "network_simple" {
+  source              = "../../module/network/simple"
   sys_name            = var.sys_name
   env                 = var.env
   vpc_cidr            = "10.0.0.0/16"
