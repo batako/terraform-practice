@@ -32,7 +32,7 @@ resource "aws_route_table" "private" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.sys_name}-private-rtb"
+    Name = "${var.sys_name}-private-rtb-${split("-", var.subnet_private_az)[length(split("-", var.subnet_private_az)) - 1]}"
     Env  = var.env
   }
 }

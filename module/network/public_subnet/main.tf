@@ -35,7 +35,7 @@ resource "aws_route_table" "public" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.sys_name}-public-rtb"
+    Name = "${var.sys_name}-public-rtb-${split("-", var.subnet_public_az)[length(split("-", var.subnet_public_az)) - 1]}"
     Env  = var.env
   }
 }
