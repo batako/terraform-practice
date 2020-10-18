@@ -45,8 +45,8 @@ module "public_subnet" {
   sys_name            = var.sys_name
   env                 = var.env
   vpc_id              = aws_vpc.template.id
-  subnet_public_cidr  = "10.0.10.0/24"
-  subnet_public_az    = "ap-northeast-1a"
+  subnet_public_cidr  = var.subnet_public_cidr
+  subnet_public_az    = var.subnet_public_az
   internet_gateway_id = aws_internet_gateway.template.id
 }
 
@@ -55,6 +55,6 @@ module "private_subnet" {
   sys_name            = var.sys_name
   env                 = var.env
   vpc_id              = aws_vpc.template.id
-  subnet_private_cidr = "10.0.20.0/24"
-  subnet_private_az   = "ap-northeast-1a"
+  subnet_private_cidr = var.subnet_private_cidr
+  subnet_private_az   = var.subnet_private_az
 }
