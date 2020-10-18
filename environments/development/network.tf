@@ -9,11 +9,11 @@ module "network_simple" {
   subnet_private_az   = "${var.region}a"
 }
 
-module "security_group" {
+module "security_group_vpc" {
   source      = "../../module/network/security_group"
   sys_name    = var.sys_name
   env         = var.env
-  name        = "${var.sys_name}-sg"
+  name        = "${var.sys_name}-sg-vpc"
   vpc_id      = module.network_simple.vpc_id
   port        = 80
   cidr_blocks = ["0.0.0.0/0"]
