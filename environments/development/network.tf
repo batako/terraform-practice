@@ -42,13 +42,3 @@ module "private_subnet_c" {
   subnet_private_cidr = "10.0.21.0/24"
   subnet_private_az   = "${var.region}c"
 }
-
-module "security_group_vpc" {
-  source   = "../../module/network/security_group"
-  sys_name = var.sys_name
-  env      = var.env
-  name     = "${var.sys_name}-sg-vpc"
-  vpc_id   = module.network_base.vpc_id
-  # port        = 80
-  # cidr_blocks = ["0.0.0.0/0"]
-}

@@ -62,11 +62,9 @@ resource "aws_instance" "web_a" {
   instance_type = "t2.nano"
   subnet_id     = module.public_subnet_a.id
   key_name      = var.sys_name
-  # vpc_security_group_ids = [module.security_group_vpc.id]
   vpc_security_group_ids = [module.security_group_web.id]
   depends_on = [
     module.public_subnet_a,
-    # module.security_group_vpc,
   ]
 
   user_data = <<EOF
