@@ -25,10 +25,12 @@ module "security_group_web" {
 }
 
 resource "aws_security_group_rule" "ingress" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
+  type      = "ingress"
+  from_port = 22
+  to_port   = 22
+  protocol  = "tcp"
+  # TODO: アクセス元のIPアドレスを入力
+  #       直接変更するのは面倒なので何かいい方法を考える
   cidr_blocks       = ["MyIP/32"]
   security_group_id = module.security_group_web.id
 
