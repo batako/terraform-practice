@@ -18,10 +18,10 @@ module "security_group_web" {
   sys_name = var.sys_name
   env      = var.env
   name     = "${var.sys_name}-sg-web"
-  vpc_id   = module.network_preset.vpc_id
+  vpc_id   = module.network_base.vpc_id
   # port        = 80
   # cidr_blocks = ["0.0.0.0/0"]
-  depends_on = [module.network_preset]
+  depends_on = [module.network_base]
 }
 
 resource "aws_security_group_rule" "ingress-web" {
@@ -40,7 +40,7 @@ resource "aws_security_group_rule" "ingress-ssh" {
   protocol  = "tcp"
   # TODO: アクセス元のIPアドレスを入力
   #       直接変更するのは面倒なので何かいい方法を考える
-  cidr_blocks       = ["MyIP/32"]
+  cidr_blocks       = ["116.94.167.212/32"]
   security_group_id = module.security_group_web.id
 
   lifecycle {
