@@ -18,10 +18,10 @@ data "aws_ami" "recent_amazon_linux_2" {
 #   sys_name    = var.sys_name
 #   env         = var.env
 #   name        = "${var.sys_name}-sg-web"
-#   vpc_id      = module.network_simple.vpc_id
+#   vpc_id      = module.network_preset.vpc_id
 #   port        = 80
 #   cidr_blocks = ["0.0.0.0/0"]
-#   depends_on  = [module.network_simple]
+#   depends_on  = [module.network_preset]
 # }
 
 resource "aws_instance" "web" {
@@ -32,7 +32,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [module.security_group_vpc.id]
   # vpc_security_group_ids = [module.security_group_web.id]
   depends_on = [
-    module.network_simple,
+    module.network_preset,
     module.security_group_vpc,
   ]
 

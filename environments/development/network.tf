@@ -1,5 +1,5 @@
-module "network_simple" {
-  source              = "../../module/network/simple"
+module "network_preset" {
+  source              = "../../module/network/preset"
   sys_name            = var.sys_name
   env                 = var.env
   vpc_cidr            = "10.0.0.0/16"
@@ -14,7 +14,7 @@ module "security_group_vpc" {
   sys_name    = var.sys_name
   env         = var.env
   name        = "${var.sys_name}-sg-vpc"
-  vpc_id      = module.network_simple.vpc_id
+  vpc_id      = module.network_preset.vpc_id
   port        = 80
   cidr_blocks = ["0.0.0.0/0"]
 }
