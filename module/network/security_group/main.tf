@@ -22,7 +22,7 @@ resource "aws_security_group" "default" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.sys_name}-sg"
+    Name = var.name
     Env  = var.env
   }
 }
