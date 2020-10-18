@@ -24,7 +24,16 @@ module "security_group_web" {
   depends_on = [module.network_preset]
 }
 
-resource "aws_security_group_rule" "ingress" {
+resource "aws_security_group_rule" "ingress-web" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = module.security_group_web.id
+}
+
+resource "aws_security_group_rule" "ingress-ssh" {
   type      = "ingress"
   from_port = 22
   to_port   = 22
