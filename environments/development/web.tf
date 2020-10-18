@@ -78,7 +78,7 @@ systemctl start httpd.service
 EOF
 
   tags = {
-    Name = "${var.sys_name}-web"
+    Name = "${var.sys_name}-web-a"
     Env  = var.env
   }
 }
@@ -102,7 +102,7 @@ systemctl start httpd.service
 EOF
 
   tags = {
-    Name = "${var.sys_name}-web"
+    Name = "${var.sys_name}-web-c"
     Env  = var.env
   }
 }
