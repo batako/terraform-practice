@@ -57,16 +57,40 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = module.security_group_web.id
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "web_a" {
   ami           = data.aws_ami.recent_amazon_linux_2.image_id
   instance_type = "t2.nano"
-  subnet_id     = module.network_preset.subnet_public_id
+  subnet_id     = module.public_subnet_a.id
   key_name      = var.sys_name
   # vpc_security_group_ids = [module.security_group_vpc.id]
   vpc_security_group_ids = [module.security_group_web.id]
   depends_on = [
-    module.network_preset,
+    module.public_subnet_a,
     # module.security_group_vpc,
+  ]
+
+  user_data = <<EOF
+#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl enable httpd.service
+systemctl start httpd.service
+EOF
+
+  tags = {
+    Name = "${var.sys_name}-web"
+    Env  = var.env
+  }
+}
+
+resource "aws_instance" "web_c" {
+  ami                    = data.aws_ami.recent_amazon_linux_2.image_id
+  instance_type          = "t2.nano"
+  subnet_id              = module.public_subnet_c.id
+  key_name               = var.sys_name
+  vpc_security_group_ids = [module.security_group_web.id]
+  depends_on = [
+    module.public_subnet_c,
   ]
 
   user_data = <<EOF
