@@ -10,11 +10,11 @@ module "network_preset" {
 }
 
 module "security_group_vpc" {
-  source      = "../../module/network/security_group"
-  sys_name    = var.sys_name
-  env         = var.env
-  name        = "${var.sys_name}-sg-vpc"
-  vpc_id      = module.network_preset.vpc_id
-  port        = 80
-  cidr_blocks = ["0.0.0.0/0"]
+  source   = "../../module/network/security_group"
+  sys_name = var.sys_name
+  env      = var.env
+  name     = "${var.sys_name}-sg-vpc"
+  vpc_id   = module.network_preset.vpc_id
+  # port        = 80
+  # cidr_blocks = ["0.0.0.0/0"]
 }

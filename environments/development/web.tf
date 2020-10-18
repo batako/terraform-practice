@@ -13,27 +13,49 @@ data "aws_ami" "recent_amazon_linux_2" {
   }
 }
 
-# module "security_group_web" {
-#   source      = "../../module/network/security_group"
-#   sys_name    = var.sys_name
-#   env         = var.env
-#   name        = "${var.sys_name}-sg-web"
-#   vpc_id      = module.network_preset.vpc_id
-#   port        = 80
-#   cidr_blocks = ["0.0.0.0/0"]
-#   depends_on  = [module.network_preset]
-# }
+module "security_group_web" {
+  source   = "../../module/network/security_group"
+  sys_name = var.sys_name
+  env      = var.env
+  name     = "${var.sys_name}-sg-web"
+  vpc_id   = module.network_preset.vpc_id
+  # port        = 80
+  # cidr_blocks = ["0.0.0.0/0"]
+  depends_on = [module.network_preset]
+}
+
+resource "aws_security_group_rule" "ingress" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["MyIP/32"]
+  security_group_id = module.security_group_web.id
+
+  lifecycle {
+    ignore_changes = [cidr_blocks]
+  }
+}
+
+resource "aws_security_group_rule" "egress" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = module.security_group_web.id
+}
 
 resource "aws_instance" "web" {
-  ami                    = data.aws_ami.recent_amazon_linux_2.image_id
-  instance_type          = "t2.nano"
-  subnet_id              = module.network_simple.subnet_public_id
-  key_name               = var.sys_name
-  vpc_security_group_ids = [module.security_group_vpc.id]
-  # vpc_security_group_ids = [module.security_group_web.id]
+  ami           = data.aws_ami.recent_amazon_linux_2.image_id
+  instance_type = "t2.nano"
+  subnet_id     = module.network_preset.subnet_public_id
+  key_name      = var.sys_name
+  # vpc_security_group_ids = [module.security_group_vpc.id]
+  vpc_security_group_ids = [module.security_group_web.id]
   depends_on = [
     module.network_preset,
-    module.security_group_vpc,
+    # module.security_group_vpc,
   ]
 
   user_data = <<EOF
