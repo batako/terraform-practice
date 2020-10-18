@@ -58,10 +58,10 @@ resource "aws_security_group_rule" "egress" {
 }
 
 resource "aws_instance" "web_a" {
-  ami           = data.aws_ami.recent_amazon_linux_2.image_id
-  instance_type = "t2.nano"
-  subnet_id     = module.public_subnet_a.id
-  key_name      = var.sys_name
+  ami                    = data.aws_ami.recent_amazon_linux_2.image_id
+  instance_type          = "t2.nano"
+  subnet_id              = module.public_subnet_a.id
+  key_name               = var.sys_name
   vpc_security_group_ids = [module.security_group_web.id]
   depends_on = [
     module.public_subnet_a,
@@ -71,6 +71,8 @@ resource "aws_instance" "web_a" {
 #!/bin/bash
 yum update -y
 yum install -y httpd
+echo "<p>${var.region}a</p>" > /var/www/html/index.html
+chown apache:apache -R /var/www/html
 systemctl enable httpd.service
 systemctl start httpd.service
 EOF
@@ -95,6 +97,8 @@ resource "aws_instance" "web_c" {
 #!/bin/bash
 yum update -y
 yum install -y httpd
+echo "<p>${var.region}c</p>" > /var/www/html/index.html
+chown apache:apache -R /var/www/html
 systemctl enable httpd.service
 systemctl start httpd.service
 EOF
