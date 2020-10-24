@@ -7,22 +7,22 @@ variable "env" {
 variable "vpc_id" {
   type = string
 }
-variable "subnet_private_cidr" {
+variable "cidr_block" {
   type = string
 }
-variable "subnet_private_az" {
+variable "az" {
   type = string
 }
 
 # プライベートサブネットの作成
 resource "aws_subnet" "private" {
   vpc_id                  = var.vpc_id
-  cidr_block              = var.subnet_private_cidr
-  availability_zone       = var.subnet_private_az
+  cidr_block              = var.cidr_block
+  availability_zone       = var.az
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.sys_name}-private-subnet-${split("-", var.subnet_private_az)[length(split("-", var.subnet_private_az)) - 1]}"
+    Name = "${var.sys_name}-private-subnet-${split("-", var.az)[length(split("-", var.az)) - 1]}"
     Env  = var.env
   }
 }
@@ -32,7 +32,7 @@ resource "aws_route_table" "private" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.sys_name}-private-rtb-${split("-", var.subnet_private_az)[length(split("-", var.subnet_private_az)) - 1]}"
+    Name = "${var.sys_name}-private-rtb-${split("-", var.az)[length(split("-", var.az)) - 1]}"
     Env  = var.env
   }
 }
