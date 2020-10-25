@@ -18,6 +18,26 @@ variable "num_subnets" {
   default = 2
 }
 
+variable "instance_types" {
+  default = ["t2.micro"]
+}
+
+variable "desired_capacity" {
+  default = 2
+}
+
+variable "max_size" {
+  default = 2
+}
+
+variable "min_size" {
+  default = 2
+}
+
+variable "key_name" {
+  default = "eks-dev"
+}
+
 locals {
   base_tags = {
     Project     = var.project

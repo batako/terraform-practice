@@ -11,10 +11,11 @@ resource "aws_vpc" "vpc" {
 
 ## Public
 resource "aws_subnet" "pub_sn" {
-  count             = var.num_subnets
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, count.index + 10)
-  availability_zone = element(data.aws_availability_zones.available.names, count.index % var.num_subnets)
+  count                   = var.num_subnets
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, count.index + 10)
+  availability_zone       = element(data.aws_availability_zones.available.names, count.index % var.num_subnets)
+  map_public_ip_on_launch = true
   tags = merge(
     local.default_tags,
     map(
@@ -32,6 +33,10 @@ resource "aws_subnet" "pub_sn" {
           ) - 1
         ]
       }"
+    ),
+    map(
+      "kubernetes.io/cluster/${local.cluster_name}",
+      "shared"
     )
   )
 }
